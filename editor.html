@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
-    <script src="https://ramen-umai.github.io/cc-asset/ja.js"></script>
+    <script src="ja.js"></script>
     <style>
         #blocklyDiv {
           height: 480px;
@@ -49,7 +49,8 @@
 <hr>
 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"><i class="fa-solid fa-terminal"></i> コード</button>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+<!-- コードの表示 -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="offcanvasBottomLabel"><i class="fa-solid fa-terminal"></i> コード</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -58,9 +59,27 @@
     <pre id="output"></pre>
   </div>
 </div>
+
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBotton" aria-controls="offcanvasBottom"><i class="fa-solid fa-laptop-code"></i> コンソール</button>
+<!-- コンソール(自作)の表示 -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBotton" aria-labelledby="offcanvasBottomLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasBottomLabel"><i class="fa-solid fa-laptop-code"></i> コンソール</h5>
+      <button type="button" class="btn-close" id="c" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <button onclick="logdel()" type="button" class="btn btn-outline-danger">全て消す</button>
+      <hr>
+      <pre id="console"></pre>
+    </div>
+  </div>
+
+<button onclick="ex()" class="btn btn-success" type="button"><i class="fa-solid fa-play"></i></button>
+</div>
+
 <div id="blocklyDiv"></div>
 <script>
-    // Blocklyワークスペース初期化
+    // 設定
     const workspace = Blockly.inject('blocklyDiv', {
       toolbox: `
         <xml xmlns="http://www.w3.org/1999/xhtml">
@@ -71,6 +90,9 @@
             <block type="logic_boolean"></block>
             <block type="logic_null"></block>
             <block type="logic_ternary"></block>
+          </category>
+          <category name="イベント" colour="%{BKY_CONSOLE_HUE}">
+            <block type="events_playclick"></block>
           </category>
           <category name="制御" colour="%{BKY_LOOPS_HUE}">
             <block type="controls_if"></block>
@@ -130,12 +152,17 @@
             <block type="text_print"></block>
             <block type="text_prompt_ext"></block>
           </category>
+          <category name="コンソール" colour="%{BKY_CONSOLE_HUE}">
+            <block type="console_log"></block>
+            <block type="console_del"></block>
+            <block type="console_ordel"></block>
+          </category>
           <category name="変数" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
           <category name="関数" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
         </xml>`,
       backpack: true,
       trashcan: true,
-      renderer: 'Zelos', // ← Zelosを指定
+      renderer: 'Zelos',
       grid: {
         spacing: 40,
         length: 3,
@@ -145,7 +172,7 @@
       zoom: {
         controls: true,
         wheel: true,
-        startScale: 0.7, // ← ここで小さく！
+        startScale: 0.7,
         maxScale: 3,
         minScale: 0.3,
         scaleSpeed: 1.2
@@ -153,12 +180,139 @@
       locale: 'ja'
     });
 
+    // コード表示
     const pre = document.getElementById('output');
     workspace.addChangeListener(() => {
       const code = Blockly.JavaScript.workspaceToCode(workspace);
-      pre.textContent = `// JavaScriptコードがここに表示されます\n${code}` || '// ブロックをつなげてみてね！';
+      pre.textContent = `// JavaScriptコード\n\n${code}` || '// ブロックをつなげてみてね！';
     });
 
+    const logdel = () => {
+        exlog.length = 0; // ログを全消し
+        updateConsole();  // 表示も更新（空になる）
+    }
+
+    // コンソールに(こんにちは)を記録する
+
+    const console_log = {
+  init: function() {
+    this.appendEndRowInput('block')
+    　.appendField('コンソールに')
+      .appendField(new Blockly.FieldTextInput('こんにちは'), 'TXT')
+      .appendField('を記録する')
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('コンソールに内容を記録します');
+    this.setHelpUrl('');
+    this.setColour(44);
+  }
+};
+Blockly.common.defineBlocks({console_log: console_log});
+                    
+javascript.javascriptGenerator.forBlock['console_log'] = function(block) {
+  const text_txt = block.getFieldValue('TXT');
+
+  return `\nconsole.log('${text_txt}')\nexlog.push('${text_txt}')`;
+}
+
+    // コンソールの内容を全削除する
+
+    const console_del = {
+  init: function() {
+    this.appendEndRowInput('block')
+    　.appendField('コンソールの内容を全削除する')
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('コンソールの内容を全削除します');
+    this.setHelpUrl('');
+    this.setColour(44);
+  }
+};
+Blockly.common.defineBlocks({console_del: console_del});
+                    
+javascript.javascriptGenerator.forBlock['console_del'] = function(block) {
+  return `exlog.length = 0;\nupdateConsole();`
+}
+
+// 最初/最後 の記録を削除する
+const console_ordel = {
+  init: function() {
+    this.appendEndRowInput('MENU')
+      .appendField(new Blockly.FieldDropdown([
+          ['最初', 'shift'],
+          ['最後', 'pop']
+        ]), 'MENU')
+      .appendField('の記録を削除する');
+    this.setInputsInline(true)
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip('最初、または最後の記録を削除します');
+    this.setHelpUrl('');
+    this.setColour(45);
+  }
+};
+Blockly.common.defineBlocks({console_ordel: console_ordel});
+                    
+javascript.javascriptGenerator.forBlock['console_ordel'] = function(block) {
+  const or = block.getFieldValue('MENU');
+  const code = `exlog.${or}();\n`;
+  return code;
+}
+
+//events_playclick
+const events_playclick = {
+  init: function() {
+    this.appendEndRowInput('NAME')
+      .appendField(new Blockly.FieldImage('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTczIDM5Yy0xNC44LTkuMS0zMy40LTkuNC00OC41LS45UzAgNjIuNiAwIDgwTDAgNDMyYzAgMTcuNCA5LjQgMzMuNCAyNC41IDQxLjlzMzMuNyA4LjEgNDguNS0uOUwzNjEgMjk3YzE0LjMtOC43IDIzLTI0LjIgMjMtNDFzLTguNy0zMi4yLTIzLTQxTDczIDM5eiIvPjwvc3ZnPg==', 20, 20, { alt: '▶', flipRtl: 'FALSE'}))
+      .appendField('が押されたとき');
+    this.setInputsInline(false)
+    this.setNextStatement(true, null);
+    this.setTooltip('▶が押されたときに下のコードを実行します');
+    this.setHelpUrl('');
+    this.setColour(60);
+  }
+};
+Blockly.common.defineBlocks({events_playclick: events_playclick});
+                    
+javascript.javascriptGenerator.forBlock['events_playclick'] = function(block) {
+return '// when_play_clicked\n';
+}
+</script>
+<script>
+const exlog = [];
+
+function updateConsole() {
+    const log = document.getElementById('console');
+    let output = "💻 ここがコンソールです。\n\n";
+
+    exlog.forEach((entry, index) => {
+        const dis = index + 1; // ここで1から始まる番号にする
+        if (entry instanceof Error) {
+            output += `[${dis}] ✖ エラー: ${entry.message}\n`;
+        } else {
+            output += `[${dis}] ${entry}\n`;
+        }
+    });
+
+    log.textContent = output;
+}
+
+updateConsole();
+    
+const ex = () => {
+    const code = Blockly.JavaScript.workspaceToCode(workspace);
+    exlog.push(`✔ コードを実行しました:\n${code}`);
+
+    try {
+        eval(code);
+    } catch (e) {
+        exlog.push(e);
+        console.error(e);
+        window.alert(e);
+    }
+
+    updateConsole();
+};
 </script>
 </body>
 </html>
