@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraft - Document</title>
+    <script src="https://kit.fontawesome.com/8ca18021b2.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+          このサイト、プロジェクトは未完成です。仕様が変更される場合がございます。
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="d-grid gap-50 d-md-block">
+    <a href="sin.html" class="btn btn-info" role="button"><i class="fa-solid fa-home"></i> ホーム</a>
+    <a class="btn btn-info" href="#" role="button"><i class="fa-solid fa-circle-plus"></i> つくる</a>
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user-tie"></i> 提案</button>
+    <button type="button" class="btn btn-dark"><i class="fa-solid fa-moon"></i> ダークモード</button>
+    <button type="button" class="btn btn-info">コントラストモード</button>
+
+    <div class="btn-group dropend">
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-info" type="submit">Search</button>
+          </form>
+      </div>
+    </div>
+</nav>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">新機能を提案をする</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfRShXqW_nx1Zf_IaHkaTyiMgHZmR1gyJzz_s1lneBYhwyydA/viewform?embedded=true" width="500" height="630" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+              </div>
+            </div>
+          </div>
+          <hr>
+    <div class="d-flex align-items-start">
+        <div
+          class="nav flex-column nav-pills me-3"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
+        >
+          <button
+            class="nav-link active"
+            id="v-pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-home"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-home"
+            aria-selected="true"
+          >
+            ブロックについて
+          </button>
+          <button
+            class="nav-link"
+            id="v-pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-profile"
+            aria-selected="false"
+          >
+            このプロジェクトについて
+          </button>
+          <button
+            class="nav-link"
+            id="v-pills-messages-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-messages"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-messages"
+            aria-selected="false"
+          >
+            ルール
+          </button>
+          <button
+            class="nav-link"
+            id="v-pills-settings-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-settings"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-settings"
+            aria-selected="false"
+          >
+            開発者向け
+          </button>
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="v-pills-home"
+            role="tabpanel"
+            aria-labelledby="v-pills-home-tab"
+          >
+            <h3>ブロック一覧</h3><hr>
+            <h2>1. 論理（Logic）</h2>
+            <ul>
+              <li>
+                <strong>if / if else（もし〜なら）</strong>
+                <p>条件が正しいときだけ、指定した処理を実行するブロックです。たとえば、「もし温度が30度以上なら扇風機を止める」といった動作を設定できます。</p>
+              </li>
+              <li>
+                <strong>true / false（真・偽）</strong>
+                <p>論理値を表します。プログラムの判断基準として、条件が成り立つ（true）か成り立たない（false）かを示します。これにより、分岐処理などを明確にします。</p>
+              </li>
+              <li>
+                <strong>=, ≠, &lt;, &gt;, ≤, ≥（比較）</strong>
+                <p>2つの数値や文字、変数の値を比較するためのブロックです。数が同じか、どちらが大きいか、小さいかを判断し、次の処理の条件決定に使われます。例えば、テストの点数が一定以上かどうかをチェックする場合などに利用します。</p>
+              </li>
+              <li>
+                <strong>and / or / not（論理演算）</strong>
+                <p>複数の条件を組み合わせたり、条件を反転させたりするための演算です。<br>
+                   - <strong>and</strong>：すべての条件が正しいときに真となる。<br>
+                   - <strong>or</strong>：いずれかの条件が正しければ真となる。<br>
+                   - <strong>not</strong>：条件の論理値を反転させる。</p>
+              </li>
+            </ul>
+          
+            <h2>2. くり返し（Loops）</h2>
+            <ul>
+              <li>
+                <strong>repeat n times（n回くり返す）</strong>
+                <p>指定した回数だけ同じ処理を実行します。例えば、「10回『こんにちは』と表示する」場合など、回数が決まっている処理に便利です。</p>
+              </li>
+              <li>
+                <strong>while / until（〜の間／〜まで）</strong>
+                <p>指定した条件が成立している間（または成立するまで）処理を繰り返すブロックです。<br>
+                   例として、ユーザーがボタンを押すまで待機し、ボタンが押されたら処理を中断する場合などに使用します。<br>
+                   注意点として、条件が永遠に成立すると無限ループになってしまう可能性があるため、必ず条件を正しく設定する必要があります。</p>
+              </li>
+              <li>
+                <strong>for（数つきのくり返し）</strong>
+                <p>初期値、条件、増減幅を設定して、一定の範囲内で変数の値を変えながら処理を繰り返します。<br>
+                   例として、1から10までの数字を順に表示する場合や、配列の全要素にアクセスする際に用いられます。</p>
+              </li>
+            </ul>
+          
+            <h2>3. 計算（Math）</h2>
+            <ul>
+              <li>
+                <strong>＋ － × ÷</strong>
+                <p>基本的な算術演算ができるブロックです。<br>
+                   数値の加算、減算、乗算、除算を使用して計算を行い、結果を他のブロックに渡すことができます。<br>
+                   たとえば、ゲームのスコア計算や、合計金額の計算などで利用されます。</p>
+              </li>
+              <li>
+                <strong>ランダムな数</strong>
+                <p>指定した範囲内でランダムな数字を生成します。<br>
+                   これにより、予測不可能な動作や、ゲームのランダムなイベントを作り出すことができます。<br>
+                   例として、サイコロの目のシミュレーションや、抽選プログラムに利用できます。</p>
+              </li>
+            </ul>
+          
+            <h2>4. 文字（Text）</h2>
+            <ul>
+              <li>
+                <strong>文字をつなげる</strong>
+                <p>複数の文字列を連結して一つの文章にします。<br>
+                   例えば、「おはよう」と「ございます」をつなげることで「おはようございます」というメッセージを作れます。<br>
+                   このブロックを使うことで、動的なメッセージや表示内容を作成できます。</p>
+              </li>
+              <li>
+                <strong>文字の長さ・一部を取り出す</strong>
+                <p>入力された文字列の長さを数えたり、特定の位置から一文字または一部を抽出します。<br>
+                   これにより、ユーザーの名前の一部を抜き出したり、文字列の内容をチェックすることができます。</p>
+              </li>
+            </ul>
+          
+            <h2>5. 変数（Variables）</h2>
+            <ul>
+              <li>
+                <strong>変数を作る・使用する・値を変更する</strong>
+                <p>データを一時的に保存するための箱のようなものです。<br>
+                   プログラム内で必要な数値、文字列、論理値などを格納し、何度も利用することができます。<br>
+                   たとえば、ゲームの得点やユーザーの入力情報を保存・更新する場合に使われます。</p>
+              </li>
+            </ul>
+          
+            <h2>6. 関数（Functions）</h2>
+            <ul>
+              <li>
+                <strong>関数を作る</strong>
+                <p>よく使う処理をひとまとまりにして、一つの名前をつけるブロックです。<br>
+                   これにより、同じ処理を何度も書かずに済み、プログラムが分かりやすくなります。<br>
+                   例えば、複雑な計算処理や一連の動作を関数にまとめ、必要に応じて呼び出すことが可能です。</p>
+              </li>
+              <li>
+                <strong>関数を呼び出す</strong>
+                <p>作成した関数を実際に実行するブロックです。<br>
+                   関数に設定された処理内容が実行され、計算や動作が行われます。<br>
+                   これにより、処理を再利用してコードの重複を減らすことができます。</p>
+              </li>
+            </ul>
+
+</body>
+</html>
+
+            
+          </div>
+          <div
+            class="tab-pane fade"
+            id="v-pills-profile"
+            role="tabpanel"
+            aria-labelledby="v-pills-profile-tab"
+          >
+            ...
+          </div>
+          <div
+            class="tab-pane fade"
+            id="v-pills-messages"
+            role="tabpanel"
+            aria-labelledby="v-pills-messages-tab"
+          >
+            ...
+          </div>
+          <div
+            class="tab-pane fade"
+            id="v-pills-settings"
+            role="tabpanel"
+            aria-labelledby="v-pills-settings-tab"
+          >
+            ...
+          </div>
+        </div>
+      </div>
+</body>
+</html>

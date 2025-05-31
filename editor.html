@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraft - Editor</title>
+    <script src="https://kit.fontawesome.com/8ca18021b2.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="ja.js"></script>
+    <style>
+        #blocklyDiv {
+          height: 480px;
+          width: 100%;
+          min-width: 320px;
+          border: 1px solid #888;
+          margin: 16px 0;
+        }
+      </style>
+</head>
+<body>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+          このサイト、プロジェクトは未完成です。仕様が変更される場合がございます。
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="d-grid gap-50 d-md-block">
+    
+    <a class="btn btn-info" href="sin.html" role="button"><i class="fa-solid fa-home"></i> ホーム</a>
+    <a class="btn btn-info" href="#" role="button"><i class="fa-solid fa-circle-plus"></i> つくる</a>
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user-tie"></i> 提案</button>
+    </div>
+</nav>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">新機能を提案をする</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfRShXqW_nx1Zf_IaHkaTyiMgHZmR1gyJzz_s1lneBYhwyydA/viewform?embedded=true" width="500" height="630" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+              </div>
+            </div>
+          </div>
+<hr>
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom"><i class="fa-solid fa-terminal"></i> コード</button>
+
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasBottomLabel"><i class="fa-solid fa-terminal"></i> コード</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <pre id="output"></pre>
+  </div>
+</div>
+<div id="blocklyDiv"></div>
+<script>
+    // Blocklyワークスペース初期化
+    const workspace = Blockly.inject('blocklyDiv', {
+      toolbox: `
+        <xml xmlns="http://www.w3.org/1999/xhtml">
+          <category name="論理" colour="%{BKY_LOGIC_HUE}">
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+            <block type="logic_negate"></block>
+            <block type="logic_boolean"></block>
+            <block type="logic_null"></block>
+            <block type="logic_ternary"></block>
+          </category>
+          <category name="制御" colour="%{BKY_LOOPS_HUE}">
+            <block type="controls_if"></block>
+            <block type="controls_repeat_ext">
+              <value name="TIMES">
+                <shadow type="math_number">
+                  <field name="NUM">10</field>
+                </shadow>
+              </value>
+            </block>
+            <block type="controls_whileUntil"></block>
+            <block type="controls_for">
+              <value name="FROM">
+                <shadow type="math_number">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+              <value name="TO">
+                <shadow type="math_number">
+                  <field name="NUM">10</field>
+                </shadow>
+              </value>
+              <value name="BY">
+                <shadow type="math_number">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+            </block>
+            <block type="controls_forEach"></block>
+            <block type="controls_flow_statements"></block>
+          </category>
+          <category name="演算" colour="%{BKY_MATH_HUE}">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+            <block type="math_single"></block>
+            <block type="math_trig"></block>
+            <block type="math_constant"></block>
+            <block type="math_number_property"></block>
+            <block type="math_round"></block>
+            <block type="math_on_list"></block>
+            <block type="math_modulo"></block>
+            <block type="math_constrain"></block>
+            <block type="math_random_int"></block>
+            <block type="math_random_float"></block>
+            </category>
+            <category name="テキスト" colour="%{BKY_TEXTS_HUE}">
+            <block type="text"></block>
+            <block type="text_join"></block>
+            <block type="text_append"></block>
+            <block type="text_length"></block>
+            <block type="text_isEmpty"></block>
+            <block type="text_indexOf"></block>
+            <block type="text_charAt"></block>
+            <block type="text_getSubstring"></block>
+            <block type="text_changeCase"></block>
+            <block type="text_trim"></block>
+            <block type="text_print"></block>
+            <block type="text_prompt_ext"></block>
+          </category>
+          <category name="変数" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+          <category name="関数" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+        </xml>`,
+      backpack: true,
+      trashcan: true,
+      renderer: 'Zelos', // ← Zelosを指定
+      grid: {
+        spacing: 40,
+        length: 3,
+        colour: '#ccc',
+        snap: true,
+      },
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 0.7, // ← ここで小さく！
+        maxScale: 3,
+        minScale: 0.3,
+        scaleSpeed: 1.2
+      },
+      locale: 'ja'
+    });
+
+    const pre = document.getElementById('output');
+    workspace.addChangeListener(() => {
+      const code = Blockly.JavaScript.workspaceToCode(workspace);
+      pre.textContent = `// JavaScriptコードがここに表示されます\n${code}` || '// ブロックをつなげてみてね！';
+    });
+
+</script>
+</body>
+</html>
